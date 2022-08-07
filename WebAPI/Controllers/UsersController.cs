@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete;
+using Core.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +9,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        //Add işlemi auth/register'da yapıldığı için buradan kaldırdım
         IUserService _userService;
         public UsersController(IUserService userService)
         {
@@ -30,17 +31,6 @@ namespace WebAPI.Controllers
         public IActionResult GetById(int id)
         {
             var result = _userService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [HttpPost("add")]
-        public IActionResult Add(User user)
-        {
-            var result = _userService.Add(user);
             if (result.Success)
             {
                 return Ok(result);

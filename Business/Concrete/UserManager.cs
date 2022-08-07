@@ -1,8 +1,9 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Business;
+using Core.Entities.Concrete;
 using Core.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +14,21 @@ namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
-        private IUserDal _userDal;
+        IUserDal _userDal;
+
         public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
         }
-        public IResult Add(User user)
+
+        public List<OperationClaim> GetClaims(User user)
         {
-            _userDal.Add(user);
-            return new SuccessResult(Messages.UserAdded);
+            return _userDal.GetClaims(user);
         }
 
-        public IResult Delete(User user)
+        public User GetByMail(string email)
         {
-            _userDal.Delete(user);
-            return new SuccessResult(Messages.UserDeleted);
+            return _userDal.Get(u => u.Email == email);
         }
 
         public IDataResult<List<User>> GetAll()
@@ -37,13 +38,25 @@ namespace Business.Concrete
 
         public IDataResult<User> GetById(int id)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u=>u.Id==id),Messages.UserListedById);
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == id));
         }
 
-        public IResult Update(User user)
+        IResult IBaseService<User>.Add(User entity)
         {
-            _userDal.Update(user);
+            _userDal.Add(entity);
+            return new SuccessResult(Messages.UserAdded);
+        }
+
+        public IResult Update(User entity)
+        {
+            _userDal.Update(entity);
             return new SuccessResult(Messages.UserUpdated);
+        }
+
+        public IResult Delete(User entity)
+        {
+            _userDal.Delete(entity);
+            return new SuccessResult(Messages.UserDeleted);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,7 @@ namespace Business.Constants
         public static string UserUpdated = "Kullanıcı Detayları Güncellendi";
         public static string UserDeleted = "Kullanıcı Silindi";
         public static string UserListedById = "Kullanıcı Getirildi";
+        public static string UserListedByEmail = "Kullanıcı Getirildi";
         public static string UsersListed = "Kullanıcı Listelendi";
 
         //Customer Strings
@@ -64,6 +66,12 @@ namespace Business.Constants
         public static string CarImageDeleted = "Araba resmi silinmiştir";
         public static string CarImageUpdated = "Araba resmi güncellenmiştir";
 
-        
+        //Auth Strimgs
+        public static string AccessTokenCreated = "Erişim token oluşturuldu";
+        public static string UserRegistered ="Kayıt olundu";
+        public static string UserNotFound = "Kullanıcı Bulunamadı";
+        public static string PasswordError = "Hatalı şifre";
+        public static string SuccessfulLogin = "Başarılı giriş";
+        public static string UserAlreadyExists = "Kullanıcı zaten mevcut";
     }
 }
