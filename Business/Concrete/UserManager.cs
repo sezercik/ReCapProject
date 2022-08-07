@@ -1,14 +1,10 @@
 ﻿using Business.Abstract;
 using Business.Constants;
-using Core.Business;
+using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
 using Core.Results;
 using DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Business.Concrete
 {
@@ -21,16 +17,19 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        //[ValidationAspect(typeof(UserValidator))]
+        public IResult Add(User entity)
         {
-            return _userDal.GetClaims(user);
+
+            _userDal.Add(entity);
+            return new SuccessResult(Messages.UserAdded);
         }
 
-        public User GetByMail(string email)
+        public IResult Delete(User entity)
         {
-            return _userDal.Get(u => u.Email == email);
+            _userDal.Delete(entity);
+            return new SuccessResult(Messages.UserDeleted);
         }
-
         public IDataResult<List<User>> GetAll()
         {
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
@@ -41,22 +40,20 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(_userDal.Get(u => u.Id == id));
         }
 
-        IResult IBaseService<User>.Add(User entity)
-        {
-            _userDal.Add(entity);
-            return new SuccessResult(Messages.UserAdded);
-        }
-
         public IResult Update(User entity)
         {
             _userDal.Update(entity);
             return new SuccessResult(Messages.UserUpdated);
         }
 
-        public IResult Delete(User entity)
+        public List<OperationClaim> GetClaims(User user)
         {
-            _userDal.Delete(entity);
-            return new SuccessResult(Messages.UserDeleted);
+            return _userDal.GetClaims(user);
+        }
+
+        public User GetByMail(string email)
+        {
+            return _userDal.Get(u => u.Email == email);
         }
     }
 }
